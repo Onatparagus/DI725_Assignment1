@@ -28,26 +28,32 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.distributed import init_process_group, destroy_process_group
 
 from model import GPTConfig, GPT
+import wandb
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
+import pandas as pd
+
+train_df = pd.read_pickle('data/train_processed.pkl')
+val_df = pd.read_pickle('data/val_processed.pkl')
 
 # -----------------------------------------------------------------------------
 # default config values designed to train a gpt2 (124M) on OpenWebText
 # I/O
 out_dir = 'out'
-eval_interval = 2000
+eval_interval = 500 #reduced for classification
 log_interval = 1
-eval_iters = 200
+eval_iters = 100 #reduced for classification
 eval_only = False # if True, script exits right after the first eval
 always_save_checkpoint = True # if True, always save a checkpoint after each eval
 init_from = 'scratch' # 'scratch' or 'resume' or 'gpt2*'
 # wandb logging
 wandb_log = True # disabled by default
-wandb_project = 'sentiment'
+wandb_project = 'di725-sentiment'
 wandb_run_name = 'gpt2' # 'run' + str(time.time())
 # data
 dataset = 'openwebtext'
 gradient_accumulation_steps = 5 * 8 # used to simulate larger batch sizes
-batch_size = 12 # if gradient_accumulation_steps > 1, this is the micro-batch size
-block_size = 1024
+batch_size = 16 # if gradient_accumulation_steps > 1, this is the micro-batch size
+block_size = 256 #reduced for classification
 # model
 n_layer = 12
 n_head = 12
@@ -112,9 +118,8 @@ ptdtype = {'float32': torch.float32, 'bfloat16': torch.bfloat16, 'float16': torc
 ctx = nullcontext() if device_type == 'cpu' else torch.amp.autocast(device_type=device_type, dtype=ptdtype)
 
 # poor man's data loader
-#data_dir = os.path.join('data', dataset)
-data_dir = "customer_service"
-def get_batch(split):
+data_dir = os.path.join('data', dataset)
+def get_batch_OLD(split):
     # We recreate np.memmap every batch to avoid a memory leak, as per
     # https://stackoverflow.com/questions/45132940/numpy-memmap-memory-usage-want-to-iterate-once/61472122#61472122
     if split == 'train':
@@ -130,6 +135,28 @@ def get_batch(split):
     else:
         x, y = x.to(device), y.to(device)
     return x, y
+    
+def get_batch(split):
+    #load preprocessed data
+    df = train_df if split == 'train' else val_df    
+    
+    high = len(df) - batch_size + 1
+    if high <= 0: raise ValueError(f"Batch size {batch_size} is larger than dataset size {len(df)}")
+        
+    indices = torch.randperm(len(df))[:batch_size]
+    
+    #get input_ids
+    input_ids = torch.stack([df.iloc[i]['tokens']['input_ids'].squeeze(0) for i in indices])
+    labels = torch.tensor([df.iloc[i]['sentiment_label'] for i in indices], dtype=torch.long)
+    
+    if device_type == 'cuda':
+        input_ids = input_ids.pin_memory().to(device, non_blocking=True)
+        labels = labels.pin_memory().to(device, non_blocking=True)
+    else:
+        input_ids = input_ids.to(device)
+        labels = labels.to(device)
+        
+    return input_ids, labels
 
 # init these up here, can override if init_from='resume' (i.e. from a checkpoint)
 iter_num = 0
@@ -156,7 +183,6 @@ if init_from == 'scratch':
     model_args['vocab_size'] = meta_vocab_size if meta_vocab_size is not None else 50304
     gptconf = GPTConfig(**model_args)
     model = GPT(gptconf)
-    model.head = torch.nn.Linear(n_embd, 3)
 elif init_from == 'resume':
     print(f"Resuming training from {out_dir}")
     # resume training from a checkpoint.
@@ -216,25 +242,26 @@ if ddp:
 # helps estimate an arbitrarily accurate loss over either split using many batches
 @torch.no_grad()
 def estimate_loss():
-    out1 = {}
-    out2 = {}
+    out = {}
     model.eval()
     for split in ['train', 'val']:
         losses = torch.zeros(eval_iters)
-        accuracies = torch.zeros(eval_iters)  #add accuracy log
+        correct = 0
+        total = 0
+        
         for k in range(eval_iters):
             X, Y = get_batch(split)
-            with ctx:
-                logits, loss = model(X, Y)
-            preds = torch.argmax(logits, dim=-1)
-            correct = (preds == Y).float().sum()
-            accuracy = correct / Y.size(0)
-            accuracies[k] = accuracy.item()
+            logits, loss = model(X, Y)
             losses[k] = loss.item()
-        out1[split] = losses.mean()
-        out2[split] = accuracies.mean()
+            preds = torch.argmax(logits, dim=1)
+            correct += (preds == Y).sum().item()
+            total += Y.size(0)
+        out[split] = {
+            'loss': losses.mean(),
+            'accuracy': correct / total
+        }
     model.train()
-    return out1, out2
+    return out
 
 # learning rate decay scheduler (cosine with warmup)
 def get_lr(it):
@@ -270,15 +297,16 @@ while True:
 
     # evaluate the loss on train/val sets and write checkpoints
     if iter_num % eval_interval == 0 and master_process:
-        losses, accuracies = estimate_loss()
+        losses = estimate_loss()
         print(f"step {iter_num}: train loss {losses['train']:.4f}, val loss {losses['val']:.4f}")
+        print(f"train acc {losses['train']['accuracy']:.4f}, val acc {losses['val']['accuracy']:.4f}")
         if wandb_log:
             wandb.log({
                 "iter": iter_num,
                 "train/loss": losses['train'],
                 "val/loss": losses['val'],
-                "train/accuracy": accuracies['train'],
-                "val/accuracy": accuracies['val'],
+                "train/acc": losses['train']['accuracy'],
+                "val/acc": losses['val']['accuracy'],
                 "lr": lr,
                 "mfu": running_mfu*100, # convert to percentage
             })
@@ -309,7 +337,6 @@ while True:
             model.require_backward_grad_sync = (micro_step == gradient_accumulation_steps - 1)
         with ctx:
             logits, loss = model(X, Y)
-            loss = torch.nn.functional.cross_entropy(logits.view(-1, 3), Y.view(-1)) #add cross entropy
             loss = loss / gradient_accumulation_steps # scale the loss to account for gradient accumulation
         # immediately async prefetch next batch while model is doing the forward pass on the GPU
         X, Y = get_batch('train')
