@@ -35,6 +35,10 @@ import pandas as pd
 train_df = pd.read_pickle('data/train_processed.pkl')
 val_df = pd.read_pickle('data/val_processed.pkl')
 
+print("Train samples:", len(train_df))
+print("First sample keys:", train_df.iloc[0].keys())
+print("Token shape:", train_df.iloc[0]['tokens']['input_ids'].shape)
+
 # -----------------------------------------------------------------------------
 # default config values designed to train a gpt2 (124M) on OpenWebText
 # I/O
@@ -53,7 +57,7 @@ wandb_run_name = 'gpt2' # 'run' + str(time.time())
 dataset = 'openwebtext'
 gradient_accumulation_steps = 5 * 8 # used to simulate larger batch sizes
 batch_size = 16 # if gradient_accumulation_steps > 1, this is the micro-batch size
-block_size = 256 #reduced for classification
+block_size = 512 #reduced for classification
 # model
 n_layer = 12
 n_head = 12
@@ -140,14 +144,15 @@ def get_batch(split):
     #load preprocessed data
     df = train_df if split == 'train' else val_df    
     
-    high = len(df) - batch_size + 1
+    high = len(df) - batch_size
     if high <= 0: raise ValueError(f"Batch size {batch_size} is larger than dataset size {len(df)}")
         
-    indices = torch.randperm(len(df))[:batch_size]
+    idx = torch.randint(0, high, (1,)).item()
+    batch_samples = df.iloc[idx:idx+batch_size]
     
     #get input_ids
-    input_ids = torch.stack([df.iloc[i]['tokens']['input_ids'].squeeze(0) for i in indices])
-    labels = torch.tensor([df.iloc[i]['sentiment_label'] for i in indices], dtype=torch.long)
+    input_ids = torch.stack([batch_samples.iloc[i]['tokens']['input_ids'].squeeze(0) for i in range(0,len(batch_samples))])
+    labels = torch.tensor(batch_samples['sentiment_label'].values, dtype=torch.long)
     
     if device_type == 'cuda':
         input_ids = input_ids.pin_memory().to(device, non_blocking=True)
@@ -298,20 +303,20 @@ while True:
     # evaluate the loss on train/val sets and write checkpoints
     if iter_num % eval_interval == 0 and master_process:
         losses = estimate_loss()
-        print(f"step {iter_num}: train loss {losses['train']:.4f}, val loss {losses['val']:.4f}")
+        print(f"step {iter_num}: train loss {losses['train']['loss']:.4f}, val loss {losses['val']['loss']:.4f}")
         print(f"train acc {losses['train']['accuracy']:.4f}, val acc {losses['val']['accuracy']:.4f}")
         if wandb_log:
             wandb.log({
                 "iter": iter_num,
-                "train/loss": losses['train'],
-                "val/loss": losses['val'],
+                "train/loss": losses['train']['loss'],
+                "val/loss": losses['val']['loss'],
                 "train/acc": losses['train']['accuracy'],
                 "val/acc": losses['val']['accuracy'],
                 "lr": lr,
                 "mfu": running_mfu*100, # convert to percentage
             })
         if losses['val'] < best_val_loss or always_save_checkpoint:
-            best_val_loss = losses['val']
+            best_val_loss = losses['val']['loss']
             if iter_num > 0:
                 checkpoint = {
                     'model': raw_model.state_dict(),

@@ -15,7 +15,7 @@ wandb_run_name = 'gpt-sentiment'
 dataset = 'customer_service'
 gradient_accumulation_steps = 1
 batch_size = 16
-block_size = 256  # context of up to 256 previous characters
+block_size = 512
 
 # baby GPT model :)
 n_layer = 6
