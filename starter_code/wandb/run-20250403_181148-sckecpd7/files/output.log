@@ -1,0 +1,7 @@
+step 0: train loss 1.1699, val loss 1.1679
+train acc 0.0200, val acc 0.0275
+Traceback (most recent call last):
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 318, in <module>
+    if losses['val'] < best_val_loss or always_save_checkpoint:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'dict' and 'float'

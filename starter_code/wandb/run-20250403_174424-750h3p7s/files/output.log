@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 286, in <module>
+    X, Y = get_batch('train') # fetch the very first batch
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 149, in get_batch
+    input_ids = torch.stack([df.iloc[i]['tokens']['input_ids'].squeeze(0) for i in indices])
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 149, in <listcomp>
+    input_ids = torch.stack([df.iloc[i]['tokens']['input_ids'].squeeze(0) for i in indices])
+                             ~~~~~~~^^^
+  File "C:\Users\Onat\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\pandas\core\indexing.py", line 1191, in __getitem__
+    return self._getitem_axis(maybe_callable, axis=axis)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Onat\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\pandas\core\indexing.py", line 1749, in _getitem_axis
+    raise TypeError("Cannot index by location index with a non-integer key")
+TypeError: Cannot index by location index with a non-integer key

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 291, in <module>
+    X, Y = get_batch('train') # fetch the very first batch
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 154, in get_batch
+    input_ids = torch.stack([sample['tokens']['input_ids'].squeeze(0) for sample in batch_samples['tokens']])
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 154, in <listcomp>
+    input_ids = torch.stack([sample['tokens']['input_ids'].squeeze(0) for sample in batch_samples['tokens']])
+                             ~~~~~~^^^^^^^^^^
+  File "C:\Users\Onat\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\transformers\tokenization_utils_base.py", line 271, in __getitem__
+    return self.data[item]
+           ~~~~~~~~~^^^^^^
+KeyError: 'tokens'

@@ -1,0 +1,15 @@
+{"time":"2025-04-03T18:09:29.8490948+03:00","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"C:\\Users\\Onat\\Desktop\\starter_code_copy\\wandb\\run-20250403_180929-hz7za49d\\logs\\debug-core.log"}
+{"time":"2025-04-03T18:09:30.2293999+03:00","level":"INFO","msg":"created new stream","id":"hz7za49d"}
+{"time":"2025-04-03T18:09:30.2293999+03:00","level":"INFO","msg":"stream: started","id":"hz7za49d"}
+{"time":"2025-04-03T18:09:30.2293999+03:00","level":"INFO","msg":"writer: Do: started","stream_id":"hz7za49d"}
+{"time":"2025-04-03T18:09:30.2293999+03:00","level":"INFO","msg":"handler: started","stream_id":"hz7za49d"}
+{"time":"2025-04-03T18:09:30.2293999+03:00","level":"INFO","msg":"sender: started","stream_id":"hz7za49d"}
+{"time":"2025-04-03T18:09:30.5977071+03:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-04-03T18:09:34.953524+03:00","level":"INFO","msg":"stream: closing","id":"hz7za49d"}
+{"time":"2025-04-03T18:09:34.953524+03:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-04-03T18:09:34.953524+03:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-04-03T18:09:35.7162804+03:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-04-03T18:09:36.0484394+03:00","level":"INFO","msg":"handler: closed","stream_id":"hz7za49d"}
+{"time":"2025-04-03T18:09:36.0484394+03:00","level":"INFO","msg":"writer: Close: closed","stream_id":"hz7za49d"}
+{"time":"2025-04-03T18:09:36.0484394+03:00","level":"INFO","msg":"sender: closed","stream_id":"hz7za49d"}
+{"time":"2025-04-03T18:09:36.0484394+03:00","level":"INFO","msg":"stream: closed","id":"hz7za49d"}

@@ -1,0 +1,12 @@
+<class 'pandas.core.frame.DataFrame'>
+Traceback (most recent call last):
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 293, in <module>
+    X, Y = get_batch('train') # fetch the very first batch
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 156, in get_batch
+    input_ids = torch.stack([sample['tokens']['input_ids'].squeeze(0) for sample in batch_samples])
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 156, in <listcomp>
+    input_ids = torch.stack([sample['tokens']['input_ids'].squeeze(0) for sample in batch_samples])
+                             ~~~~~~^^^^^^^^^^
+TypeError: string indices must be integers, not 'str'

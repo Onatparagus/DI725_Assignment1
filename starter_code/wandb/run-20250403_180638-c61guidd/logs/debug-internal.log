@@ -1,0 +1,15 @@
+{"time":"2025-04-03T18:06:38.2135236+03:00","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"C:\\Users\\Onat\\Desktop\\starter_code_copy\\wandb\\run-20250403_180638-c61guidd\\logs\\debug-core.log"}
+{"time":"2025-04-03T18:06:38.6161986+03:00","level":"INFO","msg":"created new stream","id":"c61guidd"}
+{"time":"2025-04-03T18:06:38.6161986+03:00","level":"INFO","msg":"stream: started","id":"c61guidd"}
+{"time":"2025-04-03T18:06:38.616706+03:00","level":"INFO","msg":"writer: Do: started","stream_id":"c61guidd"}
+{"time":"2025-04-03T18:06:38.616706+03:00","level":"INFO","msg":"sender: started","stream_id":"c61guidd"}
+{"time":"2025-04-03T18:06:38.616706+03:00","level":"INFO","msg":"handler: started","stream_id":"c61guidd"}
+{"time":"2025-04-03T18:06:38.897683+03:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-04-03T18:06:39.2726016+03:00","level":"INFO","msg":"stream: closing","id":"c61guidd"}
+{"time":"2025-04-03T18:06:39.2726016+03:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-04-03T18:06:39.2726016+03:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-04-03T18:06:40.3550895+03:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-04-03T18:06:40.6513493+03:00","level":"INFO","msg":"handler: closed","stream_id":"c61guidd"}
+{"time":"2025-04-03T18:06:40.6513493+03:00","level":"INFO","msg":"writer: Close: closed","stream_id":"c61guidd"}
+{"time":"2025-04-03T18:06:40.6513493+03:00","level":"INFO","msg":"sender: closed","stream_id":"c61guidd"}
+{"time":"2025-04-03T18:06:40.6513493+03:00","level":"INFO","msg":"stream: closed","id":"c61guidd"}

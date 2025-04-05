@@ -1,0 +1,1 @@
+{"lr":0,"train/acc":0.02,"_runtime":4.0282888,"mfu":-100,"_step":0,"val/acc":0.0275,"_timestamp":1.7436930652459483e+09,"iter":0,"_wandb":{"runtime":4},"val/loss":{"accuracy":0.0275,"loss":1.1678900718688965},"train/loss":{"accuracy":0.02,"loss":1.1699481010437012}}

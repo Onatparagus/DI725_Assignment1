@@ -1,0 +1,16 @@
+{"time":"2025-04-03T18:03:00.2760854+03:00","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"C:\\Users\\Onat\\Desktop\\starter_code_copy\\wandb\\run-20250403_180300-q12q4weo\\logs\\debug-core.log"}
+{"time":"2025-04-03T18:03:00.6592196+03:00","level":"INFO","msg":"created new stream","id":"q12q4weo"}
+{"time":"2025-04-03T18:03:00.6592196+03:00","level":"INFO","msg":"stream: started","id":"q12q4weo"}
+{"time":"2025-04-03T18:03:00.6592196+03:00","level":"INFO","msg":"writer: Do: started","stream_id":"q12q4weo"}
+{"time":"2025-04-03T18:03:00.6592196+03:00","level":"INFO","msg":"handler: started","stream_id":"q12q4weo"}
+{"time":"2025-04-03T18:03:00.6592196+03:00","level":"INFO","msg":"sender: started","stream_id":"q12q4weo"}
+{"time":"2025-04-03T18:03:01.0840254+03:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-04-03T18:03:01.4355232+03:00","level":"INFO","msg":"stream: closing","id":"q12q4weo"}
+{"time":"2025-04-03T18:03:01.4355232+03:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-04-03T18:03:01.4355232+03:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-04-03T18:03:31.973682+03:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2025-04-03T18:03:34.6888798+03:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-04-03T18:03:35.3120269+03:00","level":"INFO","msg":"handler: closed","stream_id":"q12q4weo"}
+{"time":"2025-04-03T18:03:35.3120269+03:00","level":"INFO","msg":"writer: Close: closed","stream_id":"q12q4weo"}
+{"time":"2025-04-03T18:03:35.3120269+03:00","level":"INFO","msg":"sender: closed","stream_id":"q12q4weo"}
+{"time":"2025-04-03T18:03:35.3120269+03:00","level":"INFO","msg":"stream: closed","id":"q12q4weo"}

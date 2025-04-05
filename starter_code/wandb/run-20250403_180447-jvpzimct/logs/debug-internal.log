@@ -1,0 +1,15 @@
+{"time":"2025-04-03T18:04:47.905483+03:00","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"C:\\Users\\Onat\\Desktop\\starter_code_copy\\wandb\\run-20250403_180447-jvpzimct\\logs\\debug-core.log"}
+{"time":"2025-04-03T18:04:48.2830871+03:00","level":"INFO","msg":"created new stream","id":"jvpzimct"}
+{"time":"2025-04-03T18:04:48.2830871+03:00","level":"INFO","msg":"stream: started","id":"jvpzimct"}
+{"time":"2025-04-03T18:04:48.2835901+03:00","level":"INFO","msg":"writer: Do: started","stream_id":"jvpzimct"}
+{"time":"2025-04-03T18:04:48.2835901+03:00","level":"INFO","msg":"handler: started","stream_id":"jvpzimct"}
+{"time":"2025-04-03T18:04:48.2835901+03:00","level":"INFO","msg":"sender: started","stream_id":"jvpzimct"}
+{"time":"2025-04-03T18:04:48.610487+03:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-04-03T18:04:49.0134611+03:00","level":"INFO","msg":"stream: closing","id":"jvpzimct"}
+{"time":"2025-04-03T18:04:49.0134611+03:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-04-03T18:04:49.0134611+03:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-04-03T18:04:50.4883098+03:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-04-03T18:04:50.8117869+03:00","level":"INFO","msg":"handler: closed","stream_id":"jvpzimct"}
+{"time":"2025-04-03T18:04:50.8117869+03:00","level":"INFO","msg":"sender: closed","stream_id":"jvpzimct"}
+{"time":"2025-04-03T18:04:50.8117869+03:00","level":"INFO","msg":"writer: Close: closed","stream_id":"jvpzimct"}
+{"time":"2025-04-03T18:04:50.8117869+03:00","level":"INFO","msg":"stream: closed","id":"jvpzimct"}

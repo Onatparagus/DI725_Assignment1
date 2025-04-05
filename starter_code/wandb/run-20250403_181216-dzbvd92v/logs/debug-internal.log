@@ -1,0 +1,15 @@
+{"time":"2025-04-03T18:12:16.6485854+03:00","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"C:\\Users\\Onat\\Desktop\\starter_code_copy\\wandb\\run-20250403_181216-dzbvd92v\\logs\\debug-core.log"}
+{"time":"2025-04-03T18:12:17.0321143+03:00","level":"INFO","msg":"created new stream","id":"dzbvd92v"}
+{"time":"2025-04-03T18:12:17.0321143+03:00","level":"INFO","msg":"stream: started","id":"dzbvd92v"}
+{"time":"2025-04-03T18:12:17.0321143+03:00","level":"INFO","msg":"writer: Do: started","stream_id":"dzbvd92v"}
+{"time":"2025-04-03T18:12:17.0321143+03:00","level":"INFO","msg":"sender: started","stream_id":"dzbvd92v"}
+{"time":"2025-04-03T18:12:17.0321143+03:00","level":"INFO","msg":"handler: started","stream_id":"dzbvd92v"}
+{"time":"2025-04-03T18:12:17.4061933+03:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-04-03T18:30:10.7179859+03:00","level":"INFO","msg":"stream: closing","id":"dzbvd92v"}
+{"time":"2025-04-03T18:30:10.7179859+03:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-04-03T18:30:10.7179859+03:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-04-03T18:30:11.587811+03:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-04-03T18:30:11.9579173+03:00","level":"INFO","msg":"handler: closed","stream_id":"dzbvd92v"}
+{"time":"2025-04-03T18:30:11.9579173+03:00","level":"INFO","msg":"sender: closed","stream_id":"dzbvd92v"}
+{"time":"2025-04-03T18:30:11.9579173+03:00","level":"INFO","msg":"writer: Close: closed","stream_id":"dzbvd92v"}
+{"time":"2025-04-03T18:30:11.958138+03:00","level":"INFO","msg":"stream: closed","id":"dzbvd92v"}

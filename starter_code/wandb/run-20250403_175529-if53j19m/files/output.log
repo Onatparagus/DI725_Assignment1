@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "C:\Users\Onat\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\transformers\tokenization_utils_base.py", line 284, in __getattr__
+    return self.data[item]
+           ~~~~~~~~~^^^^^^
+KeyError: 'squeeze'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 295, in <module>
+    X, Y = get_batch('train') # fetch the very first batch
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 159, in get_batch
+    raise e
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 151, in get_batch
+    input_ids = torch.stack([
+                            ^
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 153, in <listcomp>
+    else sample['tokens'].squeeze(0)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Onat\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\transformers\tokenization_utils_base.py", line 286, in __getattr__
+    raise AttributeError
+AttributeError

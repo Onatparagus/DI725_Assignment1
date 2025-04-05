@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 306, in <module>
+    print(f"step {iter_num}: train loss {losses['train']:.4f}, val loss {losses['val']:.4f}")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unsupported format string passed to dict.__format__

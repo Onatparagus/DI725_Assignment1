@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 294, in <module>
+    X, Y = get_batch('train') # fetch the very first batch
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Onat\Desktop\starter_code_copy\train.py", line 155, in get_batch
+    print(sample.iloc[0])
+         ^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'iloc'
