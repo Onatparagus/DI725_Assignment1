@@ -237,37 +237,31 @@ class SentimentGPT(nn.Module):
         model_hf = GPT2Model.from_pretrained(model_type)
         sd_hf = model_hf.state_dict()
 
-        # Copy weights while ignoring the LM head
-        for k in sd_keys:
-            if k in ['lm_head.weight', 'transformer.wte.weight']:
-                continue
-            if any(k.endswith(w) for w in ['attn.c_attn.weight', 'attn.c_proj.weight', 
-                                          'mlp.c_fc.weight', 'mlp.c_proj.weight']):
-                # Transpose Conv1D weights
+        # copy while ensuring all of the parameters are aligned and match in names and shapes
+        sd_keys_hf = sd_hf.keys()
+        sd_keys_hf = [k for k in sd_keys_hf if not k.endswith('.attn.masked_bias')] # ignore these, just a buffer
+        sd_keys_hf = [k for k in sd_keys_hf if not k.endswith('.attn.bias')] # same, just the mask (buffer)
+        transposed = ['attn.c_attn.weight', 'attn.c_proj.weight', 'mlp.c_fc.weight', 'mlp.c_proj.weight']
+        # basically the openai checkpoints use a "Conv1D" module, but we only want to use a vanilla Linear
+        # this means that we have to transpose these weights when we import them
+        
+        #assert len(sd_keys_hf) == len(sd_keys), f"mismatched keys: {len(sd_keys_hf)} != {len(sd_keys)}"
+        matched_keys = [k for k in sd_keys_hf if k in sd]
+        print(f"Loading {len(matched_keys)} matching keys out of {len(sd_keys)} expected.")
+
+        for k in matched_keys:
+        #for k in sd_keys_hf:
+            if any(k.endswith(w) for w in transposed):
+                # special treatment for the Conv1D weights we need to transpose
+                assert sd_hf[k].shape[::-1] == sd[k].shape
                 with torch.no_grad():
-                    sd[k].copy_(sd_hf[k.replace('transformer.', '')].t())
+                    sd[k].copy_(sd_hf[k].t())
             else:
-                # Direct copy
+                # vanilla copy over the other parameters
+                assert sd_hf[k].shape == sd[k].shape
                 with torch.no_grad():
-                    sd[k].copy_(sd_hf[k.replace('transformer.', '')])
-        
-        # Initialize classification head (originally lm_head)
-        with torch.no_grad():
-            # Copy token embeddings to classification head (optional)
-            sd['lm_head.weight'].copy_(sd['transformer.wte.weight'])
-            # Add small random noise to break symmetry
-            sd['lm_head.weight'] += torch.randn_like(sd['lm_head.weight']) * 0.02
-        
-        # For sentiment analysis reduce the head size
-        if model.lm_head.out_features != gptconf.vocab_size:
-            old_head = model.lm_head
-            model.lm_head = nn.Linear(old_head.in_features, 3).to(old_head.weight.device)
-            with torch.no_grad():
-                # Initialize new head with small weights
-                model.lm_head.weight.normal_(mean=0.0, std=0.02)
-                if model.lm_head.bias is not None:
-                    model.lm_head.bias.zero_()
-        
+                    sd[k].copy_(sd_hf[k])
+
         return model
 
     def configure_optimizers(self, weight_decay, learning_rate, betas, device_type):
