@@ -3,7 +3,7 @@ import time
 out_dir = 'out-ft-sentiment'
 eval_interval = 5
 eval_iters = 40
-wandb_log = False # feel free to turn on
+wandb_log = True # feel free to turn on
 wandb_project = 'sentiment-analysis'
 wandb_run_name = 'ft-' + str(time.time())
 

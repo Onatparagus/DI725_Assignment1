@@ -10,7 +10,7 @@ always_save_checkpoint = True
 
 wandb_log = True
 wandb_project = 'sentiment-analysis'
-wandb_run_name = 'gpt-sentiment'
+wandb_run_name = 'gpt-sentiment' + str(time.time())
 
 dataset = 'customer_service'
 gradient_accumulation_steps = 1
